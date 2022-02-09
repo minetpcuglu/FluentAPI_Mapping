@@ -59,8 +59,10 @@ namespace FluentAPI_Mapping.Migrations
 
             modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Order", b =>
                 {
-                    b.Property<int>("EmployeeID")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -68,7 +70,7 @@ namespace FluentAPI_Mapping.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -78,27 +80,30 @@ namespace FluentAPI_Mapping.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeID");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Product", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -107,9 +112,6 @@ namespace FluentAPI_Mapping.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
 
                     b.Property<string>("UnitInStock")
                         .HasMaxLength(10)
@@ -120,31 +122,24 @@ namespace FluentAPI_Mapping.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Order", b =>
                 {
-                    b.HasOne("FluentAPI_Mapping.Entities.Concrete.Employee", "Employee")
+                    b.HasOne("FluentAPI_Mapping.Entities.Concrete.Employee", null)
                         .WithMany("Orders")
-                        .HasForeignKey("EmployeeID")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("FluentAPI_Mapping.Entities.Concrete.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Product", b =>
-                {
-                    b.HasOne("FluentAPI_Mapping.Entities.Concrete.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Order");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Employee", b =>
@@ -152,9 +147,9 @@ namespace FluentAPI_Mapping.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Order", b =>
+            modelBuilder.Entity("FluentAPI_Mapping.Entities.Concrete.Product", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

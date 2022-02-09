@@ -16,21 +16,11 @@ namespace FluentAPI_Mapping.Entities.EfCodeFirstMappings.Concrete
             builder.HasKey(x => x.Id);
             builder.Property(x => x.OrderDate).IsRequired(true);
 
-
-            builder.HasKey(x => new {  x.EmployeeID });
-
-            builder.HasMany(x => x.Products).WithOne(x => x.Order).HasForeignKey(x => x.OrderId).OnDelete(DeleteBehavior.Restrict);
-
-
+            builder.HasOne(x => x.Product)
+                           .WithMany(x => x.Orders)
+                           .HasForeignKey(x => x.ProductID).OnDelete(DeleteBehavior.Restrict);
 
             base.Configure(builder);
-
-
-
-
-
-            ;
-
         }
     }
 }

@@ -18,21 +18,11 @@ namespace FluentAPI_Mapping.Entities.EfCodeFirstMappings.Concrete
             builder.Property(x => x.UnitPrice).HasMaxLength(10).IsRequired(true);
             builder.Property(x => x.UnitInStock).HasMaxLength(10).IsRequired(false);
 
-
-
-            builder.HasKey(x => new { x.OrderId });
-
-            
-
+          builder.HasMany(x=> x.Orders)
+                .WithOne(x=> x.Product)
+                .HasForeignKey(x => x.ProductID).OnDelete(DeleteBehavior.Restrict);
 
             base.Configure(builder);
-
-
-
-
-
-            ;
-
         }
     }
 }

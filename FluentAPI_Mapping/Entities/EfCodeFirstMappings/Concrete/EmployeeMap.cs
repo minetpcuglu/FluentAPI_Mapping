@@ -18,21 +18,7 @@ namespace FluentAPI_Mapping.Entities.EfCodeFirstMappings.Concrete
             builder.Property(x => x.Surname).HasMaxLength(10).IsRequired(true);
             builder.Property(x => x.Email).HasMaxLength(100).IsRequired(false);
        
-          
-
-            builder.HasMany(x => x.Orders).WithOne(x => x.Employee).HasForeignKey(x => x.EmployeeID).OnDelete(DeleteBehavior.Restrict);
-         
-            //builder.HasOne(x => x.AppUser).WithMany(x => x.Tweets).HasForeignKey(x => x.AppUserId);
-
-
             base.Configure(builder);
-
-
-
-          
-
-         ;
-
         }
     }
 }

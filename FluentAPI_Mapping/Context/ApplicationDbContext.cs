@@ -14,6 +14,7 @@ namespace FluentAPI_Mapping.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { } // =>  "DB bağlantısını concructor method ile oluşturuldu."
         public  DbSet<Employee> Employees { get; set; }
         public  DbSet<Order> Orders { get; set; }
+        public  DbSet<Product> Products { get; set; }
 
         
 
